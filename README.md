@@ -1,6 +1,8 @@
 # silver-fiesta
 Showing off my very very basic node js skills ;) 
 
+[Evenote Reference](https://www.evernote.com/shard/s343/sh/4d63aa06-07e0-052a-e1b6-e40a658872d8/5e55d8c18c3cd2d7a298508854674d1c)
+
 https://www.youtube.com/playlist?list=PLsyeobzWxl7occsESx2X1E2R2Uw5wCoeG
 
 What is nodejs and why is it so popular
@@ -21,7 +23,9 @@ https://youtu.be/yEHCfRWz-EI
 -  for which we use EXPRESS
 - NPM is the central repo for all node based modules from where you can download all the required modules according to your project(like PEAR for php or pip for python)
 ---
-Installation:
+
+### Installation:
+
 https://youtu.be/JINE4D0Syqw
 - check if nodejs is already present
 	- node -v
@@ -39,7 +43,9 @@ https://youtu.be/JINE4D0Syqw
 			- Y: Minor release
 			- Z: bug fixes
 ---
-Saying Hello and much more!
+
+### Saying Hello and much more!
+
 https://youtu.be/U5h97cFmj8I
 - heythere.js
 - addition.js
@@ -51,7 +57,9 @@ https://youtu.be/U5h97cFmj8I
 		- 192.0.0.12:7000 : 192[.]0[.]0[.]12 is the IP address and 7000 is the port number
 	- module : HTTP
 ---
-How NodeJS works
+
+### How NodeJS works
+
 https://youtu.be/YSyFSnisip0
 - In the synchronous architecture
 	- if single api takes 3 seconds to response and you have 10 clients waiting in queue for a response(single thread doing all the work), it will take server 30 seconds to respond to 10th client
@@ -71,7 +79,8 @@ https://youtu.be/YSyFSnisip0
 			- Incase of CPU intensive work WE DO NOT PREFER NODEJS
 			- We use nodejs only for I/O INTENSIVE WORK
 ---
-NPM
+### NPM
+
 https://youtu.be/M8nlgBQBxxo
 - Node Package Manager
 - equivalent to PEAR/Composer for PHP or pip for Python
@@ -88,7 +97,8 @@ conposer install <packege slug>
 ```
 
 ---
-Creating a Modules in Node JS
+### Creating a Modules in Node JS
+
 https://youtu.be/zKIV3A_aOkY
 - Modules : Encapsulated unit inside a big applications
 	- encapsulated : the functions declared inside will only be available in that specific modules
@@ -97,7 +107,8 @@ https://youtu.be/zKIV3A_aOkY
 	- custom-modules/calc.js
 	- custom-modules/using-modules.js
 ---
-FS Module from NPM
+### FS Module from NPM
+
 https://youtu.be/ZySsdm576wE
 - write : wipe up the entire content and write your own content
 - append

@@ -1,0 +1,5 @@
+var calc = require('./calc.js')
+resultAdd = calc.add(5,3)
+resultSub = calc.sub(5,3)
+console.log('The output for addition module is', resultAdd)
+console.log('The output for Subtraction module is', resultSub)

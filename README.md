@@ -8,8 +8,6 @@ References from where this repo's content is derived from:
 - https://youtube.com/playlist?list=PLsyeobzWxl7occsESx2X1E2R2Uw5wCoeG 
 
 
-https://www.youtube.com/playlist?list=PLsyeobzWxl7occsESx2X1E2R2Uw5wCoeG
-
 What is nodejs and why is it so popular
 https://youtu.be/yEHCfRWz-EI
 - JS is developed is in 1995 by Mr. Eich

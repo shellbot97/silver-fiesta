@@ -2,6 +2,11 @@
 Showing off my very very basic node js skills ;) 
 
 [Evenote Reference](https://www.evernote.com/shard/s343/sh/4d63aa06-07e0-052a-e1b6-e40a658872d8/5e55d8c18c3cd2d7a298508854674d1c)
+References from where this repo's content is derived from:
+
+- https://youtu.be/Oe421EPjeBE
+- https://youtube.com/playlist?list=PLsyeobzWxl7occsESx2X1E2R2Uw5wCoeG 
+
 
 https://www.youtube.com/playlist?list=PLsyeobzWxl7occsESx2X1E2R2Uw5wCoeG
 
@@ -120,4 +125,4 @@ https://youtu.be/2ojkb44XObc
 	- to handle the real-world complexity of applications
 	- for eg get all successful sales in a year under Rs. 5000 and get the loyal customer data regarding to it
 - https://expressjs.com/
-- 
+- https://www.npmjs.com/package/nodemon : for hot reloading

@@ -47,5 +47,60 @@ https://youtu.be/3WkW9nrS2mw
 Reduce - Object example
 https://youtu.be/5BFkp8JjLEY
 - files
-	- reduce-object-example.js
-- 
+	- reduce-return-an-object.js
+	- reduce-counting-languages-github-repo.js
+- node-fetch
+- or property of assigning values
+---
+Array Destructuring
+https://youtu.be/qhECs40xMec
+- files
+	- array-destructuring.js
+---
+Object Destructuring
+https://youtu.be/i4vhNKihfto
+- files
+	- object-destructing.js
+---
+REST Operator
+https://youtu.be/f-frKsJoBQU
+- files 
+	- rest-operator.js
+- similar to spread operator
+- gathers/collects items
+- used : destructuring, functions
+- rest is for function declaration and spread is for invoke the functions
+---
+Spread Operator
+https://youtu.be/4Zyr5a3m0Fc
+- allows and iterable to spread/expand individually inside the receiver
+- spint into single items and COPY them
+- files
+	- spread-operator.js
+---
+Array.from
+https://youtu.be/zg1Bv4xubwo
+- not on a prototype not like person.from
+- from returns array object from objext with a property or an iterable objest
+- from - turns ds like array (string, nodelist, set) into an array
+- files
+	- array-from.js
+	- array-from.html
+---
+Optional chaining
+https://youtu.be/PuEGrylM1x8
+- files
+	- optional-chaining.js
+---
+Callback functions
+https://youtu.be/GWq0XETTOTk
+- function as an argument
+- files
+	- callback-functions.js
+---
+Callback hell
+https://youtu.be/bx9xYPt2tdc
+- files
+	- callback-hell.js
+	- callback-hell.html
+---

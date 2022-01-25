@@ -104,3 +104,69 @@ https://youtu.be/bx9xYPt2tdc
 	- callback-hell.js
 	- callback-hell.html
 ---
+Promises
+https://youtu.be/IBjmTlShf6U
+- files
+	- promises.js
+- promises avoid callback hell
+- allows us to write async code in sync fashion
+- main principle of promise,
+	- imagine you are in a restaurant.
+	- and you place an order for a milkshake, but you dont get the milkshake right away instead you get a receipt. 
+	- It is a promise by the restaurant that once the item you requested for is ready you will get it 
+	- once the milkshake is done preparing(2-3 minutes) you show the receipt and you get the milkshake
+	- in some cases you dont get the milkshake(maybe they are out of icecream) the order will get REJECTED and you will get your refund
+- promise is mostly used for http request
+---
+Promise example
+https://youtu.be/GKVA6jYrgKc
+- files
+	- promise-example.js
+	- promise-example.html
+---
+async await
+https://youtu.be/iHrVo5fvmzE
+- files
+	- aync-await.js
+- write async code in sync fashion
+- await : wait till promise has returned valye
+- to use await function has to be in async
+- async function ALWAYS return a promise
+---
+fetch api
+https://youtu.be/C_VIKzfpRrg
+- files
+	- fetch-api.js
+- browser api for http requests
+- default : get
+- returns a promise
+---
+fetch errors
+https://youtu.be/otrSJg1yeeo
+- files 
+	- fetch-errors.js
+- since fetch returns a promise
+- only if it cannot resolve it will throw the error
+- it WILL NOT throw any error as per the http response codes (4XX, 5XX)
+---
+width/height
+https://youtu.be/v8YENdbDv1w
+- files
+	- width-height.js
+---
+timestamps
+https://youtu.be/-Sbd08tTbAA
+- files
+	- timestamps.js
+---
+ES2022
+https://youtu.be/HnRjhUxepm8
+- files
+	- es2022.js
+- 
+---
+get element helpers
+https://youtu.be/bUa9uYFaa9M
+- files
+	- get-element-helpers.js
+	- get-element-helpers.html

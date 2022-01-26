@@ -6,7 +6,7 @@
 
 | Branch | Content |
 | ------ | ------ |
-| js-nuggets | Javascript concepts before starting with Node JS |
+| [js-nuggets](https://github.com/shellbot97/silver-fiesta/blob/js-nuggets/README.md) | Javascript concepts before starting with Node JS |
 | nodejs | node js basics |
 | nodejs-crash | Node JS in-depth + project |
 | namaste-javascript | Javascript from scratch |

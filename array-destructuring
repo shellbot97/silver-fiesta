@@ -1,0 +1,27 @@
+const fruits = ['apple', 'banana', 'chherry']
+const friends = ['alice', 'bob', 'charlie', 'dick']
+/**
+ * traditional way of accessing element from array
+ */
+console.log(fruits[0]);
+/**
+ * destructure array into variables
+ */
+const [mostFavoriteFruit, secondMostFavoriteFruit, leastFavoriteFruit, mostFavoriteVeggie] = fruits
+console.log(mostFavoriteFruit, secondMostFavoriteFruit, leastFavoriteFruit);
+/**
+ * destructuring more items then present in array
+ */
+console.log(mostFavoriteVeggie);
+/**
+ * omitting an index when destructuring
+ */
+const [enemy, , brother, friend] = friends
+console.log(enemy, brother, friend);
+/**
+ * swapping variables using the concept of destructuring
+ */
+let first = 'a';
+let second = 'b';
+[second, first] = [first, second]
+console.log(first, second);

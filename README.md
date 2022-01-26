@@ -96,7 +96,7 @@ https://youtu.be/Fnlnw8uY6jo
 	- put a debugger on the first line
 	- refresh the page
 	- go in the scope, here you will see all the variables and functions already there even before the code is executed(since it is paused on the first line itself)
-	  
+	  ![scope-in-browser](assets/scope-in-browser.png)
 
 	- incase of an arrow function, the following will give an error
 ```
@@ -109,7 +109,9 @@ https://youtu.be/Fnlnw8uY6jo
 	- hence in the memory component getname2 will be assigned a value undefined since it is a variable
 
 - Call stack in browser:
-- 
+
+![call-stack-in-browser](assets/call-stack-in-browser.png)
+
 ---
 How Functions are executed in JS
 https://youtu.be/gSDncyuGw0s
@@ -163,7 +165,8 @@ function b() {
 			- console.log(x) // 0
 	- Delete the GEC
 - For more clarity check the execution of this function in browser using debugger, scope and callstack
-- 
+
+![local-scope-and-global-scope](assets/local-scope-and-global-scope.png)
 
 ---
 Window and this keyword
@@ -252,6 +255,8 @@ console.log(b) // ERROR: not defined
 	- GEC also has reference to the lexical environment which is null
 	- so Finally Lexical Environment = local memory + Lexical Environment of Parent
 	- 
+
+	![lexical-environment-linked0list](assets/lexical-environment-linked0list.png)  
 	  
 - Scope Chaining:
 ```

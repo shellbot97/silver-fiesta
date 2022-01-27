@@ -491,3 +491,240 @@ var a = function y(){
 	- maintaining the state in async world
 	- setTimeouts
 	- Iterators
+---
+SetTimeout and Closure function
+https://youtu.be/eBTBG4nda2A
+
+```
+function x() {
+    var i = 1;
+    setTimeout(function (){
+        console.log(i)
+    }, 3000)
+    console.log("hello");
+}
+
+//output
+// hello
+// 1
+```
+- here we see that first hello is printed and then after 3 seconds variable i is printed
+- this is because
+	- the function inside setTimeout is a closure which is nothing but function and its lexical scope with it. Its lexical scope contains variable i
+	- now what setTimeout does is takes this function and lexical scope and stores it somewhere and waits for 3000 ms
+	- till then the next code is executed
+	- after 3 seconds the closure inside setTimeout is executed
+	- Problem : Print second counter after each second ie. 1 after 1 second 2 after 2 seconds 3 after 3 seconds till 6
+```
+        for (var i = 1; i <=5; i++)
+        {
+            setTimeout(() => console.log(i), i*1000);
+        }
+        Output:
+        6
+        6
+        6
+```
+
+		- here when setTimeout takes the closure function and stores it somewhere. this closure  = function + reference of variable i
+		- now this is repeated for 5 times 1 to 5 and the loop ends
+		- 1 second after the first iteration setTimeout  takes out the closure it stored at the time of first iteration. this has function and the reference to variable i
+		- but now this reference does not have the value it had in the first iteration of for (which is 1) this will have value 6 since till then the for loop is done executing
+		-   thats why it prints 6 every time
+		- SOLUTION #1
+			- if you change var i  to let i
+			- let has a block scope ie for each and every loop iteration the variable i  has a new copy itself.
+		- SOLUTION #2
+			- if you have to use var   
+```
+            for (var i = 1; i <=5; i++) 
+            {
+                function close(x){
+                    setTimeout(() => console.log(x), x*1000);
+                } 
+            }
+```
+
+OR
+- pass in var i as a parameter
+```
+const closureDemo = () => { 
+	for (var i = 1; i <= 5; i++){ 
+  	setTimeout((i) => console.log(i), i*1000, i) 
+  } 
+  console.log("hello") 
+} 
+closureDemo();
+```
+
+---
+
+TEST out knowledge
+https://youtu.be/t1nFAMws5FI
+
+- the questions i answered wrong:
+	- example of data hiding in javascript
+		- support there is a function called tv()
+		- every tv has a volume button which we can increase, so to implement this we can write a following code
+```
+            var volume = 0; //initially the volume is 0
+            function tv() {
+                volume++;
+            }
+            console.log(volume) // 0
+            tv()
+            console.log(volume) // 1
+```
+
+	- but the problem with this code is that the variable volume is exposed to the world. Anyone can come and increase or decrease it, to avoid that we can do
+```
+        function tv(){
+            var volume = 0;
+            return function increaseVolume(){
+                volume++;
+                console.log(volume)
+            }
+        }
+
+        var tvVolume = tv() 
+        tvVolume() // 1
+        tvVolume() // 2
+```
+	
+	- this this case the variable volume belongs to scope of function tv() ie. it is hidden from the outside world
+
+- make a volume decrement for the same
+	- hint: use a constructor function for the same
+```
+    function Tv(){
+        var volume = 0;
+        this.increaseVolume = function (){ // this keyword here refers to the EC of tv()
+            volume++;
+            console.log(volume)
+        }
+        this.decreaseVolume = function (){ // this keyword here refers to the EC of tv()
+            volume--;        
+            console.log(volume)
+        }
+    }
+
+var tvFunctions = new Tv() // since this is a constructor function we will have to use new keyword here
+tvFunctions.increaseVolume() // 1
+tvFunctions.increaseVolume() // 2
+tvFunctions.decreaseVolume() // 1
+tvFunctions.decreaseVolume() // 0
+```
+
+	- relation between garbage collector and closure
+
+```
+function a(){
+    var x = 0;
+    return function b(){
+        console.log(x)
+    }
+}
+```
+
+		- since var x belongs to function a() once the execution of a() is done it should be garbage collected
+		- but this is not the case
+		- since the x has to come in the lexical scope of closure b(),  a reference to that has to be stored in memory
+		- incase if b() is never used the purpose of storing reference to the value of x goes to waste!
+		- this is one of the disadvantage of closure, IT LEADS TO MEMORY ACCUMULATION AND INTURN MEMORY LEAK
+
+	- how chrome's v8 and other modern js engine smartly collect unused closure variable ans distroys them
+```
+    function a(){
+        var x = 0;
+        var z = 0; 
+        return function b(){
+            console.log(x)
+        }
+    }
+```
+
+- here func b() forms a closure with both variable x and z, but v8 distroys z since it is not used anywhere in the closure!!
+---
+
+First class functions and Anonymous functions in JS
+https://youtu.be/SHINoHxvTso
+- function statement or function declaration
+```
+function a(){
+    console.log("hello");
+}
+a();
+```
+
+- function expression
+```
+var b = function (){
+    console.log("hello");
+}
+b();
+```
+
+- Diff between function statement and function expression
+	- hoisting!!
+```
+a(); // ERROR
+function a(){
+    console.log("hello");
+}
+
+b(); // hello
+var b = function (){
+    console.log("hello");
+}
+```
+
+	- func a() cannot be called before declaring a function since it is not hoisted
+	- but in the case of function expression it can be called since the function lives in a variable b which is hoisted
+
+- anonymous function 
+```
+function (){
+    console.log("hello");
+}
+```
+
+	- the do not have their own identity
+	- if run independently, it will have SyntaxError
+	- anonymous functions are used where functions need to be treated as values for example
+		- when assigning it to some variable
+
+- named function expressions
+	- named anonymous function + variable
+	- for eg.
+```
+    var b = function xyz(){
+        console.log("hello");
+    }
+    
+    b(); // hello
+    xyz(); // reference error, XYZ is not defined
+```
+
+	- if func xyz() cannot be used, why do we need it
+		- we need to incase we want to call the function recursively
+```
+var b = function xyz(){
+    xyz();
+
+    console.log("hello");
+}
+```
+
+- First class functions
+	- the ability of functions
+		- to be used as values
+		- to be used as argument and used as a parameter
+		- to be used as return value of functions
+	- is known as first class functions
+	- functions are first class citizens!!!
+
+- arrow functions
+	- come up as a part of es6, 2015
+---
+Callback functions and Event listeners
+https://youtu.be/btj35dh3_U8

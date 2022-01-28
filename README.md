@@ -728,3 +728,199 @@ var b = function xyz(){
 ---
 Callback functions and Event listeners
 https://youtu.be/btj35dh3_U8
+
+- what is callback in JS
+	- It gives us access to asynchronous world in the synchronous environment
+```
+function x(y){
+    y()
+}
+
+x(function y(){
+
+})
+```
+
+	- the function y() is not called right away, you give the responsibilty of calling y() ti fun x()
+	- It might be called back whenever x() wants to
+	- How the callbacks are used in async environment
+		- lets take the example of setTimeout this takes a functions as a 1st argument and time after which the function needs to be called as second argument
+		- after that particular time is over the function is CALLED BACK to execute its duties
+		- what happens in reality in the context of call-stack is 
+```
+setTimeout(() => console.log("Hites"), 5000);
+
+const a => (b){ console.log("a"); b(); }
+
+a(() => { console.log("b"); });
+```
+			- JS executes the above code line-by-line. It takes the callback inside setTimeout and stores it in memory somewhere (to be executed after 5 seconds)
+				- so CALLSTACK: GEC | setTimeout  
+			- then it moves on to next line where it prints "a" and executed another function function a which it has takes as an argument
+				- so first the callstack is like CALLSTACK: GEC | a() (notice the settimeout is popped from the stack)
+				- and then CALLSTACK: GEC | a() | b()
+			- inside which it prints "b"
+				- so the callstack is first CALLSTACK : GEC | a()
+					- and then CALLSTACK : GEC
+					- and then CALLSTACK : (empty)
+			- then after 5 seconds seTimeout magically reappears in callstack!!!
+				- CALLSTACK: GEC | setTimeout 
+			- then finally the callstack is empty again
+				- CALLSTACK: (empty) 
+- Blocking the main thread
+	- so from the above example it is clear that every operation has to go through callstack when JS program is executed
+	- and JS only has A SINGLE CALLSTACK to execute all the operation
+	- this call stack is also called as a Main thread
+	- so anything (any function/operation) that blocks this call stack is known as Blocking the main thread
+- Event Listeners
+	-  an event listener can be added on any element present inside the dom
+```
+document.querySelector("#btn").addEventListener("click", function() {
+    console.log("hello");
+})
+```
+
+	- what the above piece of code does is it takes that particular element and put an event on i
+	- that event is click 
+	- whenever this event is invoked it will call the function back
+
+- Closure + Event Listener
+	- Q: How many times the button is clicked
+```
+let count = 0;
+
+document.querySelector('#click-me').addEventListener("click", () => {
+    count++;
+    console.log(count);
+)}
+```
+
+		- Here the reference to the variable count lies inside the GEC
+		- so whenever (the button is clicked and) the callback is executed since the closure saves the function and its lexical context, it gets the reference to the var count in GEC and increments it
+		- To avoid using a global variable
+```
+function addEventListener(){
+    let count = 0;
+ 
+    document.querySelector('#click-me').addEventListener("click", () => {
+        count++;
+        console.log(count);
+    )}
+}
+addEventListener();
+```
+		- now since the closure in inside the function block it remembers the reference to variable count
+
+- Garbage Collection and removeEventListener
+	- Event Listeners are heavy since they require closure
+	- even after the call stack is done executing the event listener is stored in the memory
+		- for example lets say there is a evert listener on button click, not the program is done executing (callstack is empyt) but it cannot just let the callback assocciated with that event go
+		- since you never know when that button is going to get clicked and the callback will need to be executed
+---
+Asynchronous Javascript and Event Loop 
+https://youtu.be/8zKuNo4ay8E
+- Recap:
+	- Javascript is a synchronous single threaded language
+		- it has one callstack implemented by the JS engine
+		- and all the code has to be executed through this callstack
+	- whenever the JS code is executed the GEC gets pushed inside the callstack
+	- then all the function invocation will create their own function EC
+	- this will be pushed to the callstack
+	- after the last line of function block (once the entire function is executed) this EC is popped out of the callstack
+	- and in the end GEC is popped out of the callstack
+	- Incase you have a requirement of executing the function after 5 seconds from when the GEC is popped off
+	- but JS doesnt have any timer, you will need a SUPERPOWER of timers
+- The modern browser has following component
+	- JS Engine
+		- inside this we have our callstack
+	- Local storage
+	- timer
+	- ability to communicate to the internet using URL
+	- data displaying capabilities when that URL resturns data
+	- bluetooth
+	- location
+	- etc....
+- Now lets say the call stack (present in JS engine) needs an access to all the components of browser
+- For this you use the WEB APIs
+	- Web APIs include
+		- setTimeout (THIS IS NOT A PART OF JS BUT IS A PART OF BROWSER!!!!!!!!!!!!!)
+			- gives access to timer
+		- DOM APIs (eg. document.querySelector, document.getElementByID)
+			- gives access to dom tree
+		- fetch()
+		- localStorage
+		- console (where you do console.log)
+		- location
+	- these all are available in call stack with the help of global object window
+	- object window gives access to all the capabilities of the browser to JS engine
+	- so when you do window.location you are calling location of browser(which provided by dom api called location) using the window global object
+	- Q. Why do we not use window.setTimeout always, how does using only setTimeout work
+		- since setTimeout is present in the global object doing only setTimeout works
+	- Example of setTimout WEB APIs used with the help of the code.
+		- consider the following code
+```
+            console.log("start");
+            setTimeout(() => console.log("callback"), 5000);
+            console.log("End");
+```
+			- Initially the CALLSTACK: (empty) 
+			- Now when you do console.log("start") this actually calls the WEB API which inturn calls the underlying code to log "start" inside the browser console
+				- CALLSTACK: GEC 
+			- now similar to console when you do setTimeout it calls the webapi settimeout which in turn calls the underlying code and timer. which start the 5 second timer 
+				- CALLSTACK: GEC
+			- now the console will again print "End"
+				- CALLSTACK: (empty) 
+			- meanwhile the timer is still running, and As soon as the timer expire(after 5 seconds) the callback needs to go inside the callstack
+			- now the even loop and callback queue come into picture
+				- when the timer expires, the callback function moves to the callback queue 
+				- and then the job of the event loop is continously check the callback queue and put any function present back in call stack ie. it acts like a gate keeper
+				- CALLSTACK: (callback EC) 
+				- once the code inside callback is executed, CALLSTACK: (empty) 
+
+	- Example of fetch web api with the help of the code
+		- consider the following code
+```
+            console.log("start");
+            setTimeout(callback1() => {
+                console.log("CB Timeout");
+            }, 5000);
+            fetch("api.netflix.com")
+             .then(callback2() => {
+                console.log("CB Netflix");
+             });
+            ...millions of lines of code...
+            console.log("END");
+```
+			- starts execution : CALLSTACK: GEC  console: start  EVENT LOOP STATUS: Call stack not empty  
+
+			- adds 1st callback to storage (to be executed after 5 seconds) CALLSTACK: GEC console: start STORAGE: callback1()-after 5 secs EVENT LOOP STATUS: Call stack not empty  
+
+			-  adds 2nd callback to storage (to be executed after netflix api responds) CALLSTACK: GEC console: start STORAGE: callback1()-after 5 secs | callback2()- after fetch response  EVENT LOOP STATUS: Call stack not empty  
+
+			- millions of lines of code are getting executed : CALLSTACK: GEC console: start  STORAGE: callback1()-after 5 secs | callback2()- after fetch response EVENT LOOP STATUS: Call stack not empty  
+
+			- while the millions of lines of code is getting executed nefblix responds so callback2 is bumped into microtask queue : CALLSTACK: GEC console: start STORAGE:  callback1()-after 5 seconds MICROTASK QUEUE: callback2() EVENT LOOP STATUS: Call stack not empty  
+
+			- while the millions of lines of code is getting executed timer also says 5 seconds are up so callback1 is bumped into callback queue CALLSTACK: GEC console: start STORAGE: (empty) MICROTASK QUEUE: callback2() CALLBACK QUEUE: callback1() EVENT LOOP STATUS: Call stack not empty  
+
+			- millions of lines of code is done executing and the callstack is empty now which lets the event loop status know the enqueued callback are ready to be executed CALLSTACK: (empty) console: start | end STORAGE: (empty) MICROTASK QUEUE: callback2() CALLBACK QUEUE: callback1() EVENT LOOP STATUS: Call stack empty!!  
+
+			- callback2 is bumped into callstack CALLSTACK: callback2() console: start | end | CB Netflix  STORAGE: (empty) MICROTASK QUEUE: (empty) CALLBACK QUEUE: callback1() EVENT LOOP STATUS: Call stack not empty
+
+			- once done callstask is empty and event loop knows next enququed callback is ready to be picked up: CALLSTACK: (empty) console: start | end | CB Netflix  STORAGE: (empty) MICROTASK QUEUE: (empty) CALLBACK QUEUE: callback1() EVENT LOOP STATUS: Call stack is empty!!
+
+			- then callback1() comes into callstack CALLSTACK: callback1() console: start | end | CB Netflix | CB Timeout  STORAGE: (empty) MICROTASK QUEUE: (empty) CALLBACK QUEUE: (empty) EVENT LOOP STATUS: Call stack is not empty
+
+			- once the entire code including the enqueued callbacks are executed the callstack again becomes empty CALLSTACK: (empty) console: start | end | CB Netflix | CB Timeout  STORAGE: (empty) MICROTASK QUEUE: (empty) CALLBACK QUEUE: (empty) EVENT LOOP STATUS: Call stack is empty
+
+	- from the example it is clear that microtask queue is always given a priority
+		- What comes inside microtask queue
+			- all promises callbacks
+			- mutation observer callback
+		- what doesnt come in microtask queue
+			- event listener callbacks
+			- setTimeout callbacks
+	- starvation 
+		- since all the callbacks in the microtask queue are given a priority
+		- suppose a microtask callback creates a callback in itself and that creates another callback and so on, all these tasks are given a priority
+		- that could lead to callbacks inside callback queue not getting executed for a long time

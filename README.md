@@ -15,6 +15,31 @@ https://youtu.be/80KX6aD9R7M
 - files
 	- concept-map.js
 	- map-method.html
+- example #1: Double, Triple and converting to Binary
+```
+const arr = [1,2,3,4,5];
+
+const double = (x) => x*2; 
+const triple = (x) => x*3;
+const binary = (x) => x.toString(2);
+
+const output = arr.map(double);
+const output = arr.map(triple);
+const output = arr.map(binary);
+```
+	- refer toString() for the 3rd example above
+
+- example #2 : (realworld example) Get full name from users api response 
+```
+const users = {
+    {firstName: : "hietsh", lastName:"Ingale"},
+    {firstName: : "prajwal", lastName:"Ingale"},
+    {firstName: : "shellbot", lastName:"Ingale"},
+}
+
+const output = users.map((object) => object.firstName+" "+object.lastName)
+```
+
 ---
 Unique Values:
 https://youtu.be/yxT1lgupUrY
@@ -33,6 +58,24 @@ https://youtu.be/KeYxsev737s
 - files
 	- filter-and-find.js
 - filter: returns a new array, can manipulate the size of array (unlike map), returns based on conditons
+	- example #1: filtering out all the odd values 
+```
+const arr = [1,2,3,4,5,6];
+
+const output = arr.filter((i) => i % 2 != 0)
+```
+
+	- example #2: (Real world example) finf first name of people having age < 25 from user api response
+```
+const users = [ 
+    {firstName: "hietsh", lastName:"Ingale", age: 24},  
+    {firstName: "prajwal", lastName:"Ingale", age: 24},  
+    {firstName: "shellbot", lastName:"Ingale", age: 25},  
+]
+const output = user.filter((current) => current.age < 25).map((current) => current.firstName)
+console.log(output)
+```
+
 - find: returns single instance, returns first match, if no match - undefined
 ---
 Reduce Basics
@@ -43,6 +86,63 @@ https://youtu.be/3WkW9nrS2mw
 - reduces object to a single value number, array, object
 - 1st param = accumulator =  this accumulates the output for every iteration. THIS HAS TO BE ALWAYS RETURNED AT THE END OF THE CALLBACK
 - 2nd param = current = current iteration
+- examples
+	- #1:  sum of all elements in array
+```
+const arr = [1,2,3,4,5,6,7]
+
+const totalSum = arr.reduce((total, current) => {
+    total += current
+    return total
+}, 0)
+
+console.log(totalSum)
+```
+
+	- #2:  find max value in the array
+```
+const arr = [1,2,3,4,5,6,7]
+
+const MaxNum = arr.reduce((max, current) => {
+    max = (current > max) ? current : max;
+    return max
+}, 0)
+
+console.log(maxNum)
+```
+
+- example #3: (Real-World example) Group by users by age from user api response
+```
+const users = {
+    {firstName: : "hietsh", lastName:"Ingale", age: 24}, 
+    {firstName: : "prajwal", lastName:"Ingale", age: 24}, 
+    {firstName: : "shellbot", lastName:"Ingale", age: 25}, 
+}
+
+const ages = users.reduce((acc, current) => {
+    if(acc[current.age])
+       acc[current.age] += 1
+    else
+       acc[current.age] = 1  
+    return acc
+}, {})
+```
+
+- example #4: (Real world example) finf first name of people having age < 25 from user api response
+```
+const users = [ 
+    {firstName: "hietsh", lastName:"Ingale", age: 24},  
+    {firstName: "prajwal", lastName:"Ingale", age: 24},  
+    {firstName: "shellbot", lastName:"Ingale", age: 25},  
+]
+const output = users.reduce((acc, current) => {
+    if(current.age < 25)
+        acc.push(current.name)
+    return acc
+}, []) 
+console.log(output)
+```
+
 ---
 Reduce - Object example
 https://youtu.be/5BFkp8JjLEY

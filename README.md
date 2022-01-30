@@ -45,4 +45,66 @@ https://youtu.be/Oe421EPjeBE?t=299
 		- In case of Node App, you dont have to update the Node in your app incase Node releases the next version, unlike browser where you have to accommodate every browser update in order to provide uninterrupted access
 	- CommonJS
 		- This is like ES6 modules which we use in our browser
+---
+Installation
+https://youtu.be/Oe421EPjeBE?t=470
+
+- NodeJS.org LTS version : https://nodejs.org/en/download/
+- check node version
+```
+node --version
+```
+
+- LTS : Long Time Support (strongly suggested for production apps)
+---
+Repl
+https://youtu.be/Oe421EPjeBE?t=668
+
+- How do we get node to execute out code
+- We have two options
+	- REPL Stands for Read Eval Print Loop
+		- For play around
+		- Go to CMD and type node
+```
+> const name = "hitesh"
+undefined
+> name
+'hitesh'
+```
+
+		- To close cntrl + c
+---
+CLI
+https://youtu.be/Oe421EPjeBE?t=807
+
+- Files:
+	- 01-intro.js
+- To execute
+```
+node app.js
+```
+
+or 
+
+```
+node app
+```
+
+---
+Global
+https://youtu.be/Oe421EPjeBE?t=1227
+
+- setInterval vs SetTimeout
+- files
+	- 02-globals.js
+---
+Modules
+https://youtu.be/Oe421EPjeBE?t=1774
+- files
+	- 02-modules.js
+---
+
+First Module
+https://youtu.be/Oe421EPjeBE?t=1966
+- Files
 

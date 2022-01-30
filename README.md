@@ -924,3 +924,288 @@ https://youtu.be/8zKuNo4ay8E
 		- since all the callbacks in the microtask queue are given a priority
 		- suppose a microtask callback creates a callback in itself and that creates another callback and so on, all these tasks are given a priority
 		- that could lead to callbacks inside callback queue not getting executed for a long time
+---
+JS Engine
+https://youtu.be/2WJL19wDH68
+
+- Components of Javascript Runtime Environment (JSRE)
+	- JS Engine (heart of JSRE)
+	- API to connect to outside environment 
+		- Web API incase of browser
+		- something different incase of node
+		- for eg setTimeout api is available for both nodejs and browser. but the implementation of both is very different
+	- Event loop
+	- Callback queue
+	- microtask queue
+	- etc..
+- JS Engine:
+	- examples
+		- spidermonkey : used by firefox
+		- v8: used by chrome, nodejs
+		- chakra: used by edge
+	- v8 is written in C++
+	- primary function: take high level code and turn it into a machinelevel code
+	- steps in code execution
+		- parsing
+			- code is broken down into tokens
+			- convert to abstract syntax tree: https://astexplorer.net/
+		- interpretation
+			- executes the code line by line; it doesn't know what is coming next
+			- interesting fact: inside v8 you have ignition interpreter
+		- compilation
+			- the entire code is compiled and a new code is formed which is optimised version of the code
+			- Javascript can act as an intepreter laungaue or compiled language or both. This totally depends upon the engine on which it is running
+			-  Just In Time(JIT) compilation
+				- The thought which says Javascript can use both interpreters and compilers to execute
+				- after parsing we have the AST, which inturn goes to the interpreter (which converts high level code to byte code)
+				- and while going through the code line-by-line, it takes the help of compiler to optimize the code as much as it can
+				- so the job on compiler here is to optimize the code as much as it can on the runtime
+			- Ahead Of Time(AOT) compilation
+				- some JS engines have AOT
+				- in this it takes the code which has not been executed or queued to be executed
+				- and tries to optimize it as much as it can
+				- this also produces a byte code which in turn will get executed when its time comes
+			- interesting fact: inside v8 you have turbofan optimizing compiler
+			- Optimizations done by the compiler
+				- inlining
+				- copy ellision
+				- inline caching
+			- Both of these compilation types heavily rely on 
+				- memory heap
+					- this is the place where all the memory is stored
+					- constantly in touch with 
+						- call stack
+						- garbage collector
+							- tries to free up memory heap whenever possible
+								- used mark and sweep algorithm
+							- interesting fact: inside v8 you have orinoko garbage collector
+				- callstack
+		- execution
+	- V8 engine architecture: 
+	
+	![google-v8-engine-architecture](assets/google-v8-engine-architecture.png)
+
+---
+SeTimeout()
+https://youtu.be/nqsPmuicJJc
+- incase of the following code
+```
+console.log("Start")
+
+setTimeout(() => console.log("callback"), 0);
+
+console.log("end)
+```
+
+	- the output will be like this,
+```
+start
+end
+hello
+```
+
+- even though we asked setTimeout to wait for 0 seconds it did not execute the callback right away
+- it first executed the next line and then came back to callback
+- why did this happen
+	- even though the timeout is set for 0 ms
+	- the callback still has to go through callback queue, event loop and then call stack
+	- all of this takes time
+	- till then Javascript moves on to the next line
+- when is passing 0 ms to setTimeout useful
+	- incase you want to defer a particular block of code
+		- maybe due to the less importance of the block
+- this is all possible due to a concurrency model
+
+---
+
+Higher order function and Functional programming
+https://youtu.be/HkWxvB1RJq0
+- a function which takes another function as an argument or returns another function is Hagher order function
+- example,
+```
+function x(){
+    comsole.log("Hello")
+}
+
+function y(x){
+    x();
+}
+
+y(x);
+```
+
+- functional programming demo:
+```
+const radius = [3,1,2,4];
+
+// traditional approach : get Area, circumference and diameter
+const getArea = (radius) => {
+    const output = [];
+    for (let i = 0; i < radius.length; i++){
+        output.push(Math.PI * radius[i] * radius[i])
+    }
+    return output;
+}
+const getCircum = (readius) => {
+    const output = []; 
+    for (let i = 0; i < radius.length; i++){ 
+        output.push(2 * Math.PI * radius[i]) 
+    } 
+    return output;
+}
+const getDiameter = (readius) => { 
+    const output = []; 
+    for (let i = 0; i < radius.length; i++){ 
+        output.push(2 * radius[i])  
+    } 
+    return output; 
+}
+```
+
+	- problems here is, 
+		- repeating the code
+
+- optimised code
+```
+const radius = [3,1,2,4]; 
+
+// optimised approach : get Area, circumference and diameter
+
+const area = (radius) => Math.pi * radius * radius;
+const circumference = (radius) => 2 * Math.pi * radius;
+const diameter = (radius) => 2 * radius;
+
+const getCicleMeta = (radius, logic) => { 
+    output = []
+    for (let i = 0; i < radius.length; i++){ 
+        output.push(logic(radius[i]))  
+    }
+    return output
+}
+
+console.log(getCicleMeta(radius, area))
+```
+
+	- make the logic in your head according to functions - functional programming
+	- each function should have its own responsibility
+	- reusability
+	- modularity
+	- ability of passing functions as argument
+	- pure functions
+	- composition of functions
+
+- the above code works similar to map which takes a callback and repeats it for every element in the array
+- the only difference is the syntax
+	- for map its like radius.map(area)
+	- for our function the invocation is like getCicleMeta(radius, area)
+- In order to make it behave completely like map you can write it as
+```
+Array.prototype.getCicleMeta = (logic) => {  
+    output = [] 
+    for (let i = 0; i < this.length; i++){ 
+        output.push(logic(this[i]))   
+    } 
+    return output 
+}
+```
+	- this is how generally we write polyfills!
+---
+
+Prototype and Prototypal Inheritance
+https://youtu.be/wstwjQ1yqWQ
+- Prototypal Inheritance is TOTALLY different than classical inheritance(as implemented in other languages)
+- lets say you have an array let arr = ['hitesh', 'ingale'];
+-  on this particular arr you have an access to plathora of in-built methods for example arr.length or arr.at or arr.concat
+- similar with objects
+- this is called as prototypes
+- whenever you create a JS object or array, JS engine attaches your object/array with in-built properties or functions
+- this happens with functions as well for eg function.call function.bind
+- to get all the properties/functions you do
+```
+arr.__proto__.{{properties}}
+object.__proto__.{{properties}}
+function.__proto__.{{properties}}
+```
+
+- arr.__proto__ is same as Array.prototype
+
+- now as mentioned every object has a prototype and since arr.__proto__ is an object it must have a prototype of its own, YES.
+- arr.__proto__.__proto__ gives us an object (this is the prototype of prototype of the original array)
+- Now if you move further down in the chain you notice that this chain ends here ie. the value of arr.__proto__.__proto__.__proto__ is NULL
+- We can draw following conclusions about prototypal chain
+	- for array,
+	- 
+		- every array's prototype is an object
+		- prototype of that prototype object is also an object
+		- prototype of the prototype of prototype object is NULL
+	- for object,
+	- 
+		- every object has a prototype object
+		- prototype of the prototype object is null
+	- for functions
+	- 
+		- prototype of th function function.__proto__  is a function
+		- protoype of the prototype of this function is an object
+		- prototype of this object is NULL
+	- every array, object, functions created in javascript is in the end an OBJECT
+
+- example for better understanding
+```
+let object = {
+name: "hitesh"
+}
+
+let object2 = {
+    name: "ingale",
+    city: "Mumbai",
+    getIntro: function() {
+        console.log(this.name+" from "+this.city)    
+    }
+}
+
+//never do this in reallife, this is just for understanding
+object.__proto__ = object2
+
+object.name // hitesh
+object.city // Mumbai
+object2.getIntro // ingale from mumbai
+
+object.getIntro // hitesh from mumbai
+```
+
+	- here if i do object.name  it will first check the name prop of first object
+	- and if i do object.city it will check object first, wont find city there and then move on to object2 (the parent) and check there
+	- Incase of functions
+		- the function getIntro expects current context's name and city, if not available it will move onto the parents context via __proto__ object
+
+- setting a prototype function to datatype function
+```
+Function.prototype.mybind = function(){
+    console.log("my bind")
+}
+
+function fun1 () {
+    console.log("fun1");
+}
+
+fun1.mybind() // my bind
+
+```
+
+- setting a prototype function to datatype array
+```
+Array.prototype.mybind = function (){ 
+    console.log("array my bind") 
+} 
+let arr = []; 
+arr.mybind() // array my bind 
+```
+
+- setting a prototype function to datatype object
+```
+Object.prototype.mybind = function (){ 
+    console.log("object my bind") 
+} 
+let obj = {}; 
+obj.mybind() // object my bind
+```

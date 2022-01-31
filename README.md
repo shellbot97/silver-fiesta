@@ -107,4 +107,31 @@ https://youtu.be/Oe421EPjeBE?t=1774
 First Module
 https://youtu.be/Oe421EPjeBE?t=1966
 - Files
-
+	- 03-modules.js
+	- 04-first-modules.js
+	- 05-utils-modules.js
+---
+Alternative Syntax and Mind Granade!
+https://youtu.be/Oe421EPjeBE?t=2732
+- Files
+	- 03-modules.js
+	- 06-alternative-syntax.js
+	- 07-mindGrenage.js
+---
+Built-in module Into
+https://youtu.be/Oe421EPjeBE?t=3227
+- Widely used built-in modules
+	- OS
+	- Path
+	- FS
+	- HTTP
+- Docs : https://nodejs.org/docs/latest-v14.x/api/
+---
+OS Module
+https://youtu.be/Oe421EPjeBE?t=3391
+https://nodejs.org/docs/latest-v14.x/api/os.html
+- Files:
+	- 08-os-module.js
+- Queries:
+	- os.userInfo() returns null
+- 

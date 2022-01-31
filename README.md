@@ -134,4 +134,23 @@ https://nodejs.org/docs/latest-v14.x/api/os.html
 	- 08-os-module.js
 - Queries:
 	- os.userInfo() returns null
-- 
+
+---
+Path Module
+https://youtu.be/Oe421EPjeBE?t=3853
+- Files
+	- 09-path-module.js
+---
+FS Module
+https://youtu.be/Oe421EPjeBE?t=4206
+- Sync(Non Blocking)
+	- Files:
+		- 10-fs-sync.js
+- Async:
+	- files:
+		- 11-fs-async.js
+---
+Sync vs Async
+https://youtu.be/Oe421EPjeBE?t=5252
+- Files
+	- 12-sync-fs-vs-async-fs

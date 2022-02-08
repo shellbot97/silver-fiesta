@@ -1209,3 +1209,164 @@ Object.prototype.mybind = function (){
 let obj = {}; 
 obj.mybind() // object my bind
 ```
+
+---
+
+Call, Apply & Bind methods in Javascript
+https://youtu.be/75W8UPQ5l7k
+
+- Call()
+	- Suppose you have a following object
+```
+    let name = {
+        firstName: "Hitesh",
+        lastName: "Ingale",
+        printFullName: function () {
+            console.log(this.firstName + ' ' + this.lastName);
+        }
+    }
+```
+	
+	- To print the full name
+```
+    name.printFullName()
+```
+	
+	- Problem: implement the printFullName for the below object without copy-pasting the code in
+	- Hint: Use call() method to borrow function from name
+```
+    let name2 = {
+        firstName: "Sachin",
+        lastName: "Tendulkar",
+    }
+```
+	
+	- Solution: Call Method
+		- Using call method we can do function borrowing ie. we can borrow functions from other objects
+		- Every method in JS has access to this call() method
+		- The first argument for this method is reference ie. what we want the "this" in the method(on which you are calling call() on to be pointing to
+		- in our case when we do this.firstName in name we want it to point to name2 (ie. Sachin)
+```
+    name.printFullName.call(name2)
+```
+	
+	- But in general we dont follow the approach of putting methods inside the object
+	- We keep the method implementation to be separate
+```
+    let printFullName = function () {
+        console.log(this.firstName + ' ' + this.lastName);
+    }
+```
+	
+	- and for calling we do
+```
+    printFullName.call(name)
+    printFullName.call(name2)
+```
+	
+	- Incase you want to pass arguments to this method for example
+```
+    let printFullNameAndHomeTown = function(hometown, state) {
+        console.log(`${this.firstName} ${this.lastName} from ${hometown}, ${state}`);
+    }
+```
+	
+	- In order to pass the arguments via call method
+		- the first argument will always be the reference, and then required arguments can follow
+		- for example
+```
+    printFullNameAndHomeTown.call(name, 'Mumbai SubUrb', 'MH')
+    printFullNameAndHomeTown.call(name2, 'Mumbai', 'MH')
+```
+
+- apply()
+	- the only difference in call() and apply() is the way of passing arguments in a function call
+	- in apply() the arguments are passed inside the array list
+```
+printFullNameAndHomeTown.apply(name, ['Mumbai SubUrb', 'MH'])
+```
+
+- bind()
+	- works same as call()
+	- the only difference is return type
+	- bind returns a function
+	- which can be called later at any point
+```
+let printMyName = printFullNameAndHomeTown.bind(name, "Mumbai SubUrb", "MH")
+printMyName()
+```
+
+	- Polyfill for bind
+```
+/**
+ * polyfill for bind
+ * 
+ * Polyfill : fallback for browser
+ * suppose your browser doesn't support bind() and you have to write your own implementation for it
+ * so polyfill is nothing but your own implementation
+ */
+let myName = {
+    firstName: "Hitesh",
+    lastName: "Ingale",
+}
+let printName =  function () {
+    console.log(`${this.firstName} ${this.lastName}`);
+}
+Function.prototype.myBind = function(...args){
+    let context = this
+    return function (name) {
+        context.printName()
+    }
+}
+printMyName = printName.myBind(myName)
+printMyName()
+```
+
+---
+Debouncing and Throttling in Javascript
+https://youtu.be/tJhA0DrH5co
+
+- Possible questions:
+	- what is Debouncing 
+	- what is Throttling
+	- debouncing vs throttling
+		- In which scenario will the debouncing prove helpful over throttling
+		- vice versa
+	- write a polyfill for deboouncing
+	- write a polyfill for throttling
+	- create a scenario where these concepts are used
+- Both Debouncing and throttlinf are used for optimizing the performance of a web app by limiting the rate of execution of a particular function
+	- this function call can be anything like api fetch or logging info
+	- Sometime when we attach a function to a event listener which will be called repeatetively
+-  Example #1 (Search bar in an e-commerce website)
+	- suppose we have keyPressEvent.getResults(query)
+	- on each and every key press this api/function will be calledm which is not ideal since it makes a lot of calls
+	- we can limit the rate of these api calls using
+		-  Debouncing
+			- Only make an API call if the difference between 2 key stroke events > 300 ms
+		- Throttling
+			- Only make the API call after a certain limit of time (it doenst matter how many key stroke events have happened between this time)
+		- For this example Debouncing makes more sense
+- Example #2 (Track the user when he/she is resizing the browser)
+	- Normal Implementation : add event listener on resize event and make api call in this event
+	- Con for this approach: the resize event occurs 1000-2000 times when you resize the browser window
+	- Debouncing
+		- Only make the api call when difference between two resizing event > 300 ms
+			- Cons: there cant be a constant amount of time between browser resizing by user as this is a random activity (in case of typing action, most users time at a constant rate for eg 3 words per second) 
+			- so in the case where user takes more that 300 ms while resizing, the api call will never happen 
+			- A debounced function may starve, but a throttled function would never.
+	- Throttling
+		- Only make the api call after each 300 ms
+			- Suppose the resize started, throttling says, make a function call after 300 ms of that initialization (Ignore all the events in between)
+			- Query: Here also if the resizing activity is over before 300 ms (lets say at 200 ms) the next function call will be after 100 ms, wont there be a lag incase of that??
+- Example #3 (Shooting Game)
+	- We have a button, and on button click we are triggering an event, If the user is repeatedly tapping on the button. for example, you have to develop a shooting game😉 
+	- Debouncing
+		- Only shoot the bullet when the difference between two button clicks is > 300 ms
+	- Throttling
+		- Only shoot the bullet when the time after click event reaches 300 ms (Ignore all the clicks in between) 
+	- Suppose if you have a machine gun, debouncing makes more sense (since even if you click the button repeatatively it is going to shoot in the burst of 300 ms)
+	- suppose if you have a sniper, throttling makes more sense since you will need time to reload (ignore all attempts to shoot in between)
+- Debouncing:
+
+---
